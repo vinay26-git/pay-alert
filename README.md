@@ -2,7 +2,7 @@
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/247a56fb-678c-47cb-8889-2d9eb51a3498
+**URL**: https://pay-alert.lovable.app
 
 ## How can I edit this code?
 
@@ -10,7 +10,7 @@ There are several ways of editing your application.
 
 **Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/247a56fb-678c-47cb-8889-2d9eb51a3498) and start prompting.
+Simply visit the [Lovable Project](https://pay-alert.lovable.app) and start prompting.
 
 Changes made via Lovable will be committed automatically to this repo.
 
