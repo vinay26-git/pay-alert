@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PaymentStatus {
+  UPCOMING
+  PAID
+  OVERDUE
+}
+
+enum Frequency {
+  MONTHLY
+  YEARLY
+  WEEKLY
+  ONE_TIME
+}
+
+model User {
+  id           String         @id @default(cuid())
+  email        String         @unique
+  fullName     String
+  passwordHash String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  payments     Payment[]
+  budgets      Budget[]
+  sessions     RefreshSession[]
+}
+
+model Payment {
+  id          String        @id @default(cuid())
+  serviceName String
+  category    String
+  amount      Decimal       @db.Decimal(10, 2)
+  dueDate     DateTime
+  frequency   Frequency
+  status      PaymentStatus @default(UPCOMING)
+  paymentLink String?
+  notes       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, dueDate])
+}
+
+model Budget {
+  id        String   @id @default(cuid())
+  category  String
+  limit     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, category])
+}
+
+model RefreshSession {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

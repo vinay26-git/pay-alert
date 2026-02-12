@@ -1,73 +1,72 @@
-# Welcome to your Lovable project
+# Pay Alert (Frontend + Backend)
 
-## Project info
+This project contains:
 
-**URL**: https://pay-alert.lovable.app
+- A Lovable-generated React frontend (`/src`)
+- A new TypeScript backend (`/backend`) for auth + persistent data
 
-## How can I edit this code?
+## Frontend (existing)
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://pay-alert.lovable.app) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Backend (new)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+cd backend
+cp .env.example .env
+npm install
+npm run prisma:generate
+npm run prisma:migrate -- --name init
+npm run dev
+```
 
-**Use GitHub Codespaces**
+Backend runs on `http://localhost:4000` by default.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Environment variables
 
-## What technologies are used for this project?
+Frontend (`.env`):
 
-This project is built with:
+```bash
+VITE_API_URL=http://localhost:4000
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Backend (`backend/.env`):
 
-## How can I deploy this project?
+- `DATABASE_URL`
+- `FRONTEND_ORIGIN`
+- `JWT_ACCESS_SECRET`
+- `JWT_REFRESH_SECRET`
+- token TTL and port values
 
-Simply open [Lovable](https://lovable.dev/projects/247a56fb-678c-47cb-8889-2d9eb51a3498) and click on Share -> Publish.
+See `backend/.env.example`.
 
-## Can I connect a custom domain to my Lovable project?
+## Documentation
 
-Yes, you can!
+See [BACKEND.md](./BACKEND.md) for:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- architecture decisions
+- authentication flow
+- security best practices
+- API endpoints and integration guidance
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## How to add these backend files to your repo
+
+If your local branch already has the backend files and you want to push them to GitHub:
+
+```bash
+git add BACKEND.md backend src/lib/backend-api.ts README.md
+git commit -m "Add backend auth and database scaffold"
+git push origin <your-branch-name>
+```
+
+If you want to open a pull request after pushing:
+
+```bash
+# GitHub CLI example
+gh pr create --title "Add backend auth and database scaffold" --body "Adds Express + Prisma backend with JWT auth and integration docs."
+```
+
+If the files are not present locally yet, first copy/create them, then run `git add`, `git commit`, and `git push` as above.
